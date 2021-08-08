@@ -4,8 +4,8 @@ extern "C"{
 #endif
 #include <stdint.h>
 #include <stdbool.h>
-#define MAX_NUM_OF_BUTTON 5
-#define MAX_CB_PER_BUTTON 3
+#define MAX_NUM_OF_BUTTON 4
+#define MAX_CB_PER_BUTTON 4
 #define BUTTON_ERR 1
 #define BUTTON_OK 0
 typedef struct 
