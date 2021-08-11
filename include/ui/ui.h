@@ -2,24 +2,29 @@
 #ifdef __cplusplus
 extern "C"{
 #endif
+#include "config.h"
+#if CONFIG_DISPLAY_20X4
+#include "display_20x4.h"
+#endif
 #define UI_MAX_MAIN_SCREEN  1
-#define UI_MAX_MENU_ITEM    5
 typedef enum{
     UI_MAIN_SCREEN,
     UI_MENU_SCREEN,
-    UI_SETTING_TIME_SCREEN,
-    UI_SETTING_TIMER_SCREEN,
     UI_BOOTUP_SCREEN,
     NUM_OF_UI_SCREEN
 } ui_screen_t;
-typedef enum{
-    UI_SETTING_TIMER_CHOOSE_SCREEN,
-    UI_SETTING_TIMER_SETTING_SCREEN,
-    UI_SETTING_TIMER_BACK_TO_MENU,
-    NUM_OF_UI_SETTING_TIMER_SCREEN
-} ui_setting_timer_screen_t;
+enum {
+  BUTTON_NO_EVENT = 0,
+  BUTTON_LEFT_SHORT_PRESS,
+  BUTTON_RIGHT_SHORT_PRESS,
+  BUTTON_ENTER_SHORT_PRESS,
+  BUTTON_ENTER_LONG_PRESS, // a.k.a back
+} ui_button_event;
 void ui_init();
 void ui_update();
+
+/*        PRIVATE PROTOTYPE         */
+void change_1_step_then_check(uint16_t * var,uint8_t is_increase, uint32_t high_bound, uint32_t low_bound);
 #ifdef __cplusplus
 }
 #endif

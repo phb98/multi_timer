@@ -68,7 +68,7 @@ void display_current_time(time_t cur_time){
   display_display();
 }
 #endif
-void display_menu(const char * title[], uint8_t cursor, uint8_t max_cursor_pos){
+void display_menu(const char * title[], uint16_t cursor, uint8_t max_cursor_pos){
     if(last_display != DISPLAY_MENU){
         display_clear();
         last_display = DISPLAY_MENU;
@@ -83,15 +83,15 @@ void display_menu(const char * title[], uint8_t cursor, uint8_t max_cursor_pos){
     const char * title2 = (page*3 + 1) <= max_cursor_pos ? title[ (page*3 + 1)]:"               ";
     const char * title3 = (page*3 + 2) <= max_cursor_pos ? title[ (page*3 + 2)]:"               ";
     /*
-    LCD_PRINTF_LINE0("--------MENU--------");
+    LCD_PRINTF_LINE0("        MENU   01/02");
     LCD_PRINTF_LINE1("  16charmenutitle_  ");
     LCD_PRINTF_LINE2("> 16charmenutitle_  ");
     LCD_PRINTF_LINE3("  16charmenutitle_  ");
     */
-    LCD_PRINTF_LINE0("--------MENU--------");
-    LCD_PRINTF_LINE1("  %s  ",title1);
-    LCD_PRINTF_LINE2("  %s  ",title2);
-    LCD_PRINTF_LINE3("  %s  ",title3);
+    LCD_PRINTF_LINE0("        MENU   %02d/%02d",cursor+1, max_cursor_pos+1);
+    LCD_PRINTF_LINE1(" %s  ",title1);
+    LCD_PRINTF_LINE2(" %s  ",title2);
+    LCD_PRINTF_LINE3(" %s  ",title3);
     /*display cursor*/
     lcd_buffer[(cursor%3)+1][0] = '>';
     display_display();
@@ -101,25 +101,25 @@ void display_setting_time(uint16_t * setting, uint8_t cursor){
         display_clear();
         last_display = DISPLAY_SETTING_TIME;
     }
-    const char * weekday[7]={
-        "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
-    };
-    const uint8_t cursor_map_pos[7] ={0,6,13,0,6,12,4};
+    // const char * weekday[7]={
+    //     "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+    // };
+    const uint8_t cursor_map_col[7] ={0,6,13,0,6,12,4};
     const uint8_t cursor_map_line[7]={1,1,1,2,2,2,3};
     /*
     LCD_PRINTF_LINE0("----SETTING TIME----");
     LCD_PRINTF_LINE1(" Hr:06 Min:23 Sec:20");
     LCD_PRINTF_LINE2(" DD:12 MM:06 YY:2012"); 
-    LCD_PRINTF_LINE3("     Weekday:Sun    ");
+    LCD_PRINTF_LINE3("                    ");
     */
-    LCD_PRINTF_LINE0("----SETTING TIME----");
+    LCD_PRINTF_LINE0("    SETTING TIME    ");
     LCD_PRINTF_LINE1(" Hr:%02d Min:%02d Sec:%02d",setting[0],setting[1],setting[2]);
-    LCD_PRINTF_LINE2(" DD:%02d MM:%02d YY:%04d",setting[5],setting[4],setting[3]); 
-    LCD_PRINTF_LINE3("     Weekday:%s    ",weekday[setting[6]] );
-    lcd_buffer[cursor_map_line[cursor]][cursor_map_pos[cursor]] = '>';
+    LCD_PRINTF_LINE2(" DD:%02d MM:%02d YY:%04d",setting[3],setting[4],setting[5]); 
+    LCD_PRINTF_LINE3("                    ");
+    lcd_buffer[cursor_map_line[cursor]][cursor_map_col[cursor]] = '>';
     display_display();
 }
-void display_setting_timer_choose(uint16_t timer_id){
+void display_setting_timer_choose(uint16_t timer_id, uint16_t max_timer_id){
     if(last_display != DISPLAY_SETTING_TIMER_CHOOSE){
         display_clear();
         last_display = DISPLAY_SETTING_TIMER_CHOOSE;
@@ -144,17 +144,17 @@ void display_setting_timer_setting(uint16_t * setting, uint8_t cursor){
     const uint8_t cursor_map_pos[7] ={1,7,13,0,14,0,11};
     const uint8_t cursor_map_line[7]={1,1,1,2,2,3,3};
     const char * state_string[2] = {"DIS","ENA"};
-    const char yes_no_char[2] = {'N','Y'};
+    const char * yes_no_string[2] = {"No ","Yes"};
     /*
     LCD_PRINTF_LINE0("------SET TIMER-----");
     LCD_PRINTF_LINE1("  HR:01 MM:20 SS:12 ");
     LCD_PRINTF_LINE2(" Value:1201   Ch:12 ");
-    LCD_PRINTF_LINE3(" 1shot:Y   State:Dis");
+    LCD_PRINTF_LINE3(" 1shot:Yes State:Dis");
     */
     LCD_PRINTF_LINE0("------SET TIMER-----");
     LCD_PRINTF_LINE1("  HH:%02d MM:%02d SS:%02d ",setting[0],setting[1],setting[2]);
     LCD_PRINTF_LINE2(" Value:%04d   Ch:%02d ",setting[3],setting[4]);
-    LCD_PRINTF_LINE3(" 1shot:%c   State:%s",yes_no_char[setting[6]],state_string[setting[5]]);
+    LCD_PRINTF_LINE3(" 1shot:%c   State:%s",yes_no_string[setting[6]],state_string[setting[5]]);
     lcd_buffer[cursor_map_line[cursor]][cursor_map_pos[cursor]] = '>';
     display_display();
 }

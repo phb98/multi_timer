@@ -24,3 +24,5 @@ static_assert(sizeof(timer_t)*CONFIG_NUM_OF_TIMER <= CONFIG_EEPROM_SIZE, "Error 
 #define CONFIG_BUTTON_ENTER_PIN    9
 #define CONFIG_BUTTON_LEFT_PIN     5
 #define CONFIG_BUTTON_RIGHT_PIN    6
+/* Display config */
+#define CONFIG_DISPLAY_20X4 1
